@@ -1,20 +1,46 @@
 public abstract class Strings extends Instrument
 {
+    private Cleaner cleaner;
+
+    public enum Type
+    {
+        ACOUSTIC ("acoustic"), ELECTRONIC ("electronic");
+
+        private String output;
+
+        private Type(String output)
+        {
+            this.output = output;
+        }
+
+        public String getOutput()
+        {
+            return output;
+        }
+
+        @Override
+        public String toString(){
+            return output;
+        }
+
+    }
+
     private int stringNumber;
-    private String type;
+    private Type type;
     private String tuning;
 
-    public Strings(double highPitch, double lowPitch, int stringNumber, String type, String name, String tuning)
+    public Strings(double highPitch, double lowPitch, int stringNumber, Type type, String name, String tuning, Cleaner cleaner)
     {
         super(highPitch, lowPitch, name);
         this.stringNumber = stringNumber;
         this.type = type;
         this.tuning = tuning;
+        this.cleaner = cleaner;
     }
 
-    public Strings(int stringNumber, String type, String name, String tuning)
+    public Strings(int stringNumber, Type type, String name, String tuning, Cleaner cleaner)
     {
-        this(DEFAULT_HIGH_PITCH, DEFAULT_LOW_PITCH, stringNumber, type, name, tuning);
+        this(DEFAULT_HIGH_PITCH, DEFAULT_LOW_PITCH, stringNumber, type, name, tuning, cleaner);
     }
 
     public Strings(String name)
@@ -33,12 +59,12 @@ public abstract class Strings extends Instrument
         this.stringNumber = stringNumber;
     }
 
-    public String getType()
+    public Type getType()
     {
         return type;
     }
 
-    public void setType(String type)
+    public void setType(Type type)
     {
         this.type = type;
     }
@@ -53,6 +79,14 @@ public abstract class Strings extends Instrument
         this.tuning = tuning;
     }
 
+    public Cleaner getCleaner() {
+        return cleaner;
+    }
+
+    public void setCleaner(Cleaner cleaner) {
+        this.cleaner = cleaner;
+    }
+
     @Override
     public String toString()
     {
@@ -64,7 +98,7 @@ public abstract class Strings extends Instrument
     @Override
     public boolean equals(Object obj)
     {
-        if (obj instanceof Strings)
+        if (obj!= null && obj instanceof Strings)
         {
             Strings otherStrings = (Strings) obj;
             return super.equals(obj) && stringNumber == otherStrings.stringNumber
@@ -77,7 +111,9 @@ public abstract class Strings extends Instrument
         }
     }
 
-    public abstract void clean();
+    public void clean(){ // M3 USING STRATEGY
+        cleaner.clean(this);
+    }
 
     public void tune()
     {
