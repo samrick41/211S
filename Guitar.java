@@ -4,14 +4,16 @@ public class Guitar extends Strings
     private String model;
     private String neck;
 
-    public static final String DEFAULT_GUITAR_TYPE = "acoustic";
+    public static final Type DEFAULT_GUITAR_TYPE = Type.ACOUSTIC;
     public static final int DEFAULT_GUITAR_STRING_NUMBER = 6;
     public static final String DEFAULT_GUITAR_TUNING = "E A D G B E";
+    public static final Cleaner CLEANER = new NoBowCleaner();
 
-    public Guitar(double highPitch, double lowPitch, int stringNumber, String name, String type,
+
+    public Guitar(double highPitch, double lowPitch, int stringNumber, String name, Type type, Cleaner cleaner,
                   String tuning, String make, String model, String neck)
     {
-        super(highPitch, lowPitch, stringNumber, name, type, tuning);
+        super(highPitch, lowPitch, stringNumber, type, name, tuning, cleaner);
         this.make = make;
         this.model = model;
         this.neck = neck;
@@ -23,6 +25,7 @@ public class Guitar extends Strings
         setType(DEFAULT_GUITAR_TYPE);
         setStringNumber(DEFAULT_GUITAR_STRING_NUMBER);
         setTuning(DEFAULT_GUITAR_TUNING);
+        setCleaner(CLEANER);
     }
 
     public String getMake() 
@@ -66,7 +69,7 @@ public class Guitar extends Strings
     @Override
     public boolean equals(Object obj)
     {
-        if (obj instanceof Guitar)
+        if (obj != null && obj instanceof Guitar)
         {
             Guitar otherGuitar = (Guitar) obj;
             return super.equals(obj) && make.equals(otherGuitar.make)
@@ -93,10 +96,5 @@ public class Guitar extends Strings
     public void tune()
     {
         System.out.println("Determining strings....Retuning " + getName());
-    }
-
-    public void clean()
-    {
-        System.out.println("Cleaning " + getName());
     }
 }

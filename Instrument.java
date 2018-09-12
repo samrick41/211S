@@ -1,8 +1,11 @@
+import java.lang.Math.*;
 public abstract class Instrument
 {    
     private double highPitch;
     private double lowPitch;
     private String name;
+    private int id;
+    private static int instrumentCount;
     
     public static final double DEFAULT_HIGH_PITCH = 4186.01;
     public static final double DEFAULT_LOW_PITCH = 27.5;
@@ -58,15 +61,15 @@ public abstract class Instrument
     @Override
     public boolean equals(Object obj)
     {
-        if (obj instanceof Instrument)
+        if (obj != null && obj instanceof Instrument)
         {
             Instrument otherInstrument = (Instrument) obj;
-            double otherInstrumentHighpitch = otherInstrument.highPitch;
-            double otherInstrumentLowpitch = otherInstrument.lowPitch;
-            String otherInstrumentname = otherInstrument.name;
+            double otherInstrumentHighPitch = otherInstrument.highPitch;
+            double otherInstrumentLowPitch = otherInstrument.lowPitch;
+            String otherInstrumentName = otherInstrument.name;
 
-            if (highPitch == otherInstrumentHighpitch && lowPitch == otherInstrumentLowpitch
-                    && name.equals(otherInstrumentname))
+            if (Math.abs(highPitch - otherInstrumentHighPitch) < 0.0001 && Math.abs(lowPitch - otherInstrumentLowPitch) < 0.0001
+                    && name.equals(otherInstrumentName))
             {
                 return true;
             }
